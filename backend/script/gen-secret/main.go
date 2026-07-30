@@ -26,8 +26,12 @@ func main() {
 	var found bool
 	for i, line := range lines {
 		if bytes.HasPrefix(line, []byte("JWT_SECRET=")) {
-			lines[i] = []byte("JWT_SECRET=" + secret)
 			found = true
+			val := bytes.TrimSpace(bytes.TrimPrefix(line, []byte("JWT_SECRET=")))
+			if len(val) > 0 {
+				return
+			}
+			lines[i] = []byte("JWT_SECRET=" + secret)
 			break
 		}
 	}

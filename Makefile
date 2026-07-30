@@ -20,15 +20,17 @@ fe-build: ## Build frontend for production
 be-install: ## Install backend dependencies
 	cd backend && go mod tidy
 
-be: ## Run backend server
-	cd backend && go run main.go
+be: ## Run backend server with hot reload (Air)
+	cd backend && go run github.com/air-verse/air@latest -c .air.toml
 
 run-dev: ## Run both frontend and backend dev servers natively in parallel
 	$(MAKE) -j2 be fe
 
 # --- Docker Commands ---
 docker-up: ## Start all services via docker-compose
-	docker-compose up --build
+	docker-compose build backend
+	docker-compose build frontend
+	docker-compose up
 
 docker-down: ## Stop all services
 	docker-compose down
