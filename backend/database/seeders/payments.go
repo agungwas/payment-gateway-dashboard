@@ -37,7 +37,7 @@ func seedPayments(db *sql.DB) error {
 
 		_, err := stmt.Exec(id, merchant, amount, status, createdAt)
 		if err != nil {
-			return fmt.Errorf("failed to seed payment %s: %v", id, err)
+			return fmt.Errorf("failed to seed payment %d: %v", id, err)
 		}
 	}
 
