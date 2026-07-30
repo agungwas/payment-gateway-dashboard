@@ -1,4 +1,4 @@
-import { useAuthStore } from '@/features/auth/model/authStore';
+import { useSessionStore } from '@/entities/session/model/sessionStore';
 import DashboardPage from '@/pages/dashboard/DashboardPage.vue';
 import LoginPage from '@/pages/login/LoginPage.vue';
 import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router';
@@ -31,10 +31,10 @@ export const router = createRouter({
 });
 
 router.beforeEach((to, _from, next) => {
-  const authStore = useAuthStore();
-  if (to.meta.requiresAuth && !authStore.isAuthenticated) {
+  const sessionStore = useSessionStore();
+  if (to.meta.requiresAuth && !sessionStore.isAuthenticated) {
     next('/login');
-  } else if (to.path === '/login' && authStore.isAuthenticated) {
+  } else if (to.path === '/login' && sessionStore.isAuthenticated) {
     next('/dashboard');
   } else {
     next();

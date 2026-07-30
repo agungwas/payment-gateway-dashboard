@@ -18,6 +18,9 @@ import (
 	"github.com/go-chi/cors"
 	"github.com/golang-jwt/jwt/v5"
 	oapinethttpmw "github.com/oapi-codegen/nethttp-middleware"
+
+	_ "github.com/swaggo/http-swagger/example/go-chi/docs"
+	httpSwagger "github.com/swaggo/http-swagger/v2"
 )
 
 type Server struct {
@@ -50,6 +53,14 @@ func NewServer(apiHandler openapigen.ServerInterface, openapiYamlPath string) *S
 		w.WriteHeader(http.StatusOK)
 		w.Write([]byte("OK"))
 	})
+
+	r.Get("/docs/openapi.yaml", func(w http.ResponseWriter, req *http.Request) {
+		http.ServeFile(w, req, openapiYamlPath)
+	})
+
+	r.Get("/docs/*", httpSwagger.Handler(
+		httpSwagger.URL("/docs/openapi.yaml"),
+	))
 
 	r.Route("/", func(api chi.Router) {
 		api.Use(oapinethttpmw.OapiRequestValidatorWithOptions(

@@ -1,21 +1,21 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { useAuthStore } from '@/features/auth/model/authStore';
+import { useSessionStore } from '@/entities/session/model/sessionStore';
 
 const email = ref('');
 const password = ref('');
 const errorMessage = ref('');
 const isLoading = ref(false);
 
-const authStore = useAuthStore();
+const sessionStore = useSessionStore();
 const router = useRouter();
 
 async function handleSubmit() {
   errorMessage.value = '';
   isLoading.value = true;
   try {
-    await authStore.loginUser({
+    await sessionStore.loginUser({
       email: email.value,
       password: password.value,
     });

@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
-import { login as apiLogin, type LoginRequest } from '@/shared/api/auth';
+import { login as apiLogin, type LoginRequest } from '../api/sessionApi';
 
-export const useAuthStore = defineStore('auth', () => {
+export const useSessionStore = defineStore('session', () => {
   const token = ref<string | null>(localStorage.getItem('token'));
   const role = ref<string | null>(localStorage.getItem('role'));
 
