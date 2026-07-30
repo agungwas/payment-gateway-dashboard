@@ -12,6 +12,9 @@ import (
 	ah "github.com/durianpay/fullstack-boilerplate/internal/module/auth/handler"
 	ar "github.com/durianpay/fullstack-boilerplate/internal/module/auth/repository"
 	au "github.com/durianpay/fullstack-boilerplate/internal/module/auth/usecase"
+	ph "github.com/durianpay/fullstack-boilerplate/internal/module/payments/handler"
+	pr "github.com/durianpay/fullstack-boilerplate/internal/module/payments/repository"
+	pu "github.com/durianpay/fullstack-boilerplate/internal/module/payments/usecase"
 	srv "github.com/durianpay/fullstack-boilerplate/internal/service/http"
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/mattn/go-sqlite3"
@@ -41,13 +44,16 @@ func main() {
 	}
 
 	userRepo := ar.NewUserRepo(db)
-
 	authUC := au.NewAuthUsecase(userRepo, config.JwtSecret, JwtExpiredDuration)
-
 	authH := ah.NewAuthHandler(authUC)
 
+	paymentsRepo := pr.NewPaymentsRepo(db)
+	paymentsUC := pu.NewPaymentsUsecase(paymentsRepo)
+	paymentsH := ph.NewPaymentsHandler(paymentsUC)
+
 	apiHandler := &api.APIHandler{
-		Auth: authH,
+		Auth:     authH,
+		Payments: paymentsH,
 	}
 
 	server := srv.NewServer(apiHandler, config.OpenapiYamlLocation)

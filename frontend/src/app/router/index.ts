@@ -1,6 +1,6 @@
 import { useAuthStore } from '@/features/auth/model/authStore';
 import DashboardPage from '@/pages/dashboard/DashboardPage.vue';
-import LoginPage from '@/pages/login/ui/LoginPage.vue';
+import LoginPage from '@/pages/login/LoginPage.vue';
 import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router';
 
 const routes: RouteRecordRaw[] = [
