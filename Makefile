@@ -1,4 +1,4 @@
-.PHONY: help fe-install fe fe-build be-install be
+.PHONY: help fe-install fe fe-build be-install be docker-up docker-down docker-build-be docker-build-fe
 
 help: ## Show this help message
 	@echo "Usage: make [target]"
@@ -22,3 +22,16 @@ be-install: ## Install backend dependencies
 
 be: ## Run backend server
 	cd backend && go run main.go
+
+# --- Docker Commands ---
+docker-up: ## Start all services via docker-compose
+	docker-compose up --build
+
+docker-down: ## Stop all services
+	docker-compose down
+
+docker-build-be: ## Build backend docker image independently
+	docker build -t payment-dashboard-be -f backend/Dockerfile .
+
+docker-build-fe: ## Build frontend docker image independently
+	docker build -t payment-dashboard-fe -f frontend/Dockerfile ./frontend

@@ -32,6 +32,11 @@ func NewServer(apiHandler openapigen.ServerInterface, openapiYamlPath string) *S
 
 	r := chi.NewRouter()
 
+	r.Get("/health", func(w http.ResponseWriter, req *http.Request) {
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte("OK"))
+	})
+
 	r.Route("/", func(api chi.Router) {
 		api.Use(oapinethttpmw.OapiRequestValidatorWithOptions(
 			swagger,
