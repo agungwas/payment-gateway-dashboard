@@ -12,6 +12,7 @@ var (
 	JwtExpired          = getEnv("JWT_EXPIRED", "24h")
 	HttpAddress         = getEnv("HTTP_ADDR", ":8080")
 	OpenapiYamlLocation = getEnv("OPENAPIYAML_LOCATION", "../openapi.yaml")
+	FrontendURL         = getEnv("FRONTEND_URL", "http://localhost:5173")
 )
 
 func getEnv(key, fallback string) string {
