@@ -2,8 +2,6 @@ import { describe, it, expect, vi } from 'vitest';
 import { mount } from '@vue/test-utils';
 import { createTestingPinia } from '@pinia/testing';
 import LoginPage from './LoginPage.vue';
-import { useSessionStore } from '@/entities/session/model/sessionStore';
-
 // Mock vue-router
 vi.mock('vue-router', () => ({
   useRouter: () => ({
@@ -26,7 +24,6 @@ describe('LoginPage', () => {
       }
     });
 
-    const sessionStore = useSessionStore();
     expect(wrapper.exists()).toBe(true);
 
     // Find inputs and submit

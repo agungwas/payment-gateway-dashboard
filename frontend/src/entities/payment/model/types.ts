@@ -1,8 +1,14 @@
+export enum PaymentStatus {
+  COMPLETED = 'completed',
+  PROCESSING = 'processing',
+  FAILED = 'failed',
+}
+
 export interface Payment {
   id: string;
   merchant: string;
   amount: number;
-  status: string;
+  status: PaymentStatus;
   created_at: string;
 }
 
@@ -12,6 +18,6 @@ export interface PaymentResponse {
 
 export interface GetPaymentsParams {
   id?: string;
-  status?: string;
+  status?: PaymentStatus | string;
   sort?: string;
 }

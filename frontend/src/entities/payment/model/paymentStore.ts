@@ -13,8 +13,9 @@ export const usePaymentStore = defineStore('payment', () => {
     error.value = null;
     try {
       payments.value = await fetchPayments(params);
-    } catch (err: any) {
-      error.value = err.message || 'Failed to fetch payments';
+    } catch (err: unknown) {
+      const errMessage = err as Error;
+      error.value = errMessage.message || 'Failed to fetch payments';
     } finally {
       isLoading.value = false;
     }

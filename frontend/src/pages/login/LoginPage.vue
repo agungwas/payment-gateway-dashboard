@@ -1,66 +1,94 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { useSessionStore } from '@/entities/session/model/sessionStore';
+import { UiButton, UiInput, UiCard, UiAlert } from '@/shared/ui';
+import { useLogin } from '@/features/auth/model/useLogin';
 
-const email = ref('');
-const password = ref('');
-const errorMessage = ref('');
-const isLoading = ref(false);
-
-const sessionStore = useSessionStore();
-const router = useRouter();
-
-async function handleSubmit() {
-  errorMessage.value = '';
-  isLoading.value = true;
-  try {
-    await sessionStore.loginUser({
-      email: email.value,
-      password: password.value,
-    });
-    router.push('/dashboard');
-  } catch (err: any) {
-    errorMessage.value = err.message || 'Login failed';
-  } finally {
-    isLoading.value = false;
-  }
-}
+const { email, password, errorMessage, isLoading, handleSubmit } = useLogin();
 </script>
 
 <template>
-  <div style="padding: 2rem; max-width: 400px; margin: 0 auto;">
-    <h2>Login (Internal Monitoring)</h2>
-    <form @submit.prevent="handleSubmit">
-      <div style="margin-bottom: 1rem;">
-        <label for="email">Email:</label><br />
-        <input
+  <div class="auth-layout">
+    <UiCard class="auth-card" :bordered="false">
+      <div class="auth-header">
+        <h2>Welcome Back</h2>
+        <p>Sign in to your Durianpay dashboard</p>
+      </div>
+
+      <form @submit.prevent="handleSubmit" class="auth-form">
+        <UiInput
           id="email"
+          label="Email"
           v-model="email"
           type="email"
+          placeholder="cs@test.com"
+          size="large"
           required
-          style="width: 100%; padding: 0.5rem;"
         />
-      </div>
 
-      <div style="margin-bottom: 1rem;">
-        <label for="password">Password:</label><br />
-        <input
+        <UiInput
           id="password"
+          label="Password"
           v-model="password"
           type="password"
+          placeholder="••••••••"
+          size="large"
           required
-          style="width: 100%; padding: 0.5rem;"
         />
-      </div>
 
-      <div v-if="errorMessage" style="color: red; margin-bottom: 1rem;">
-        {{ errorMessage }}
-      </div>
+        <UiAlert
+          v-if="errorMessage"
+          type="error"
+          :message="errorMessage"
+          show-icon
+        />
 
-      <button type="submit" :disabled="isLoading" style="padding: 0.5rem 1rem;">
-        {{ isLoading ? 'Logging in...' : 'Login' }}
-      </button>
-    </form>
+        <UiButton
+          type="primary"
+          htmlType="submit"
+          size="large"
+          block
+          :loading="isLoading"
+        >
+          Login
+        </UiButton>
+      </form>
+    </UiCard>
   </div>
 </template>
+
+<style scoped>
+.auth-layout {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f0f2f5 0%, #e6f7ff 100%);
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.auth-header h2 {
+  margin: 0;
+  font-weight: 600;
+}
+
+.auth-header p {
+  color: #666;
+  margin-top: 4px;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+</style>

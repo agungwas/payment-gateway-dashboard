@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { setActivePinia, createPinia } from 'pinia';
 import { usePaymentStore } from './paymentStore';
 import * as paymentApi from '../api/payment';
+import { PaymentStatus } from './types';
 
 vi.mock('../api/payment', () => ({
   fetchPayments: vi.fn(),
@@ -22,7 +23,7 @@ describe('paymentStore', () => {
 
   it('should handle successful loadPayments', async () => {
     const mockPayments = [
-      { id: '1', merchant: 'A', amount: 100, status: 'completed', created_at: '2026-07-31' }
+      { id: '1', merchant: 'A', amount: 100, status: PaymentStatus.COMPLETED, created_at: '2026-07-31' }
     ];
     vi.mocked(paymentApi.fetchPayments).mockResolvedValueOnce(mockPayments);
 
