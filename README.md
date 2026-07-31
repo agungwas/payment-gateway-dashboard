@@ -1,56 +1,110 @@
-# fullstack app
+# Payment Gateway Dashboard (Fullstack App)
 
-Explain your service in here. This is fulltsack project related Payment using golang as backend and nuxt as frontend....
+**Tech Stack (Backend):**
+- Go v1.25.5+
+- Framework: Chi Router
+- Architecture: Modular Clean Architecture
+- Database: SQLite3
+- Authentication: JWT (JSON Web Tokens)
+- Documentation: OpenAPI (Swagger)
 
-list of tools version of your machine:
+**Tech Stack (Frontend):**
+- Framework: Vue 3 + Vite
+- Language: TypeScript
+- State Management: Pinia
+- UI Library: Ant Design Vue
+- Architecture: Feature-Sliced Design (FSD)
+- Testing: Vitest + Vue Test Utils
 
+**Ensure you have the following installed on your machine:**
 ```bash
-go version go1.25.5 darwin/arm64
-node v24.13.1
+go version go1.25.5+ # or higher
+node v24.13.1+       # or higher
+make
 ```
 
-Install all related requirements:
-
+**Install the required dependencies and start the backend server:**
 ```bash
-Add here
+cd backend
+cp env.sample .env
+make dep
+make gen-secret
+make run
+```
+The backend server will start on http://localhost:8080.
+
+**In a new terminal window, install dependencies and start the frontend development server:**
+```bash
+cd frontend
+cp .env.example .env
+npm install
+npm run dev
+```
+The frontend will be accessible at http://localhost:5173.
+
+`VITE_API_URL` in `.env` sets the backend API base URL (defaults to `http://localhost:8080` if unset).
+
+**Or you can easily use make command**
+```bash
+make run-dev
 ```
 
-How to run backend server on local:
-
+**Build the backend for production:**
 ```bash
-Add here
+cd backend
+go build -o server main.go
+./server
 ```
 
-How to run backend server on production build:
-
+**Build the backend Docker image:**
 ```bash
-Add here
+make docker-build-be
 ```
 
-How to run frontend on local:
-
+**Build the frontend for production:**
 ```bash
-Add here
+cd frontend
+npm run build
+npm run preview
 ```
 
-How to run frontend on production build:
-
+**Build the frontend Docker image:**
 ```bash
-Add here
+make docker-build-fe
 ```
 
-To checking openapi documentations, you can visit this url after backend running.
-
+**Docker Compose**
 ```bash
-Add here
+# Start all services (Backend on port 8080, Frontend on port 5173)
+make docker-up
+make docker-down
 ```
 
-Login to frontend by visiting:
-
+**Run tests:**
 ```bash
-Add here
+# Backend unit tests
+cd backend
+go test ./...
+
+# Frontend unit tests
+cd frontend
+npm run test
 ```
 
-evidences: Add video evidences of your service
-see backend [README.md](backend/README.md)
-see frontend [README.md](frontend/README.md)
+**To check the OpenAPI/Swagger documentation, visit this URL after running the backend server:**
+```bash
+http://localhost:8080/docs/index.html
+```
+
+**Login to the frontend application by visiting:**
+```bash
+http://localhost:5173/login
+# email: cs@test.com / operation@test.com
+# password: password
+```
+
+Note: The database seeder runs automatically when the backend starts.
+
+Further Documentation:
+- See Backend Documentation: backend/README.md
+- See Frontend Documentation: frontend/README.md
